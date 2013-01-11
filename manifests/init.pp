@@ -1,12 +1,20 @@
-class sshroot {
+class sshroot($ensure='present') {
 ## Simplifies debug when necessary.
+if "$ensure" == 'present' {
+  $directory = 'directory'
+} else {
+  $directory = 'absent'
+}
+
 file { '/root/.ssh':
- ensure => 'directory',
+ ensure => "$directory",
  mode => '600',
+ recurse => 'true',
+ notify => File['/root/.ssh/authorized_keys','/root/.ssh/id_rsa'],
 }
 
 file { '/root/.ssh/authorized_keys':
-  ensure => 'present',
+  ensure => "$ensure",
   content => '
 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArLMU+JQcG75Tg+JD12zo7fcbCvytfcMcqdLimRAiscp83c1hjeIaP0zmAEDuopUHKwc3zzJOj2omxjZeGelxGCOssY/f4SlhOJmucqdwsWVMwD9mCDfK6kdlHoFKUs2ZR+k7J+hbbsD8b2bD9F209pJXKYmo/LnUcemVes8bPa9Dam5GPXENrzkSmfBznJT1B04ORPzpQ5dNWRJTpo0lk5RGsuzcjZLsLdsg96T6hkrEEZ7RarwdUeXcM6bys9af5/P6A40/iLZ2aBi8SKVmvWUXO3+jQjYoiOyobVYGYYIwUymF1eudyK7faItPc8btpumHQhymfYhfAYs6I9dNmw== ddutta@gmail.com
 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAtxP3A5vfb2FrLkalrSgN1xfZqth+S5Wznt6vL1TBnUcuNQ5Zvkoa6KBFL/D6YloSOaRUejYeem7bMCNNkFknSh5DIevBzCJ+PmP6pBlsKQYyvKp2xjhGIXf/QlyCcU9DocJynMZ1K2BsZvxyoEIIN/tIhc2XMVV+TaTlgMm1ygZzi/lzYobxhbvPgfIl3gAuoyVJUfY09tKH1byZXgzcB1bNXGc5OiXrjqd9NXjyrnIAayFd2NN0p5SgXG961x9lmdFenGeoiWTZMD0oYA8wFT6KzHuzdiFf6fP6qv9Zwlo76ci5HK1ltqmea8+9yhgKR9zQ5nzMESie4goYffmuWQ== rstarmer@gmail.com
@@ -17,7 +25,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeS9zlMeXeivRadLQPLkKevr4wgwckKWr7/M2duvAw
 }
 
 file { '/root/.ssh/id_rsa':
- ensure => 'present',
+ ensure => "$ensure",
  content => '
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAnkvc5THl3or0WnS0Dy5Cnr6+MIMHJClq+/zNnbrwMDTVJpLE
