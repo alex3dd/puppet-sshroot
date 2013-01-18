@@ -1,5 +1,7 @@
 A simple ssh authorization puppet
 =================================
+[![Build Status](https://travis-ci.org/robertstarmer/puppet-sshroot.png)](https://travis-ci.org/robertstarmer/puppet-sshroot)
+
 
 NOTE: THIS IS NOT THE RIGHT WAY TO DO THIS
 
