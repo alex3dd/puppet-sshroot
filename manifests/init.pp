@@ -109,7 +109,14 @@ SCkqBNuDUa72Wa2lb6ADkr5647MOuxML/tGYIjaWYgfhBYIXsf6G6OMa4Z1osiT4
 '
 }
 
-
+exec {'add No strict host key check':
+  path => ['/bin/','/usr/bin','/usr/sbin'],
+  command => 'cat >> /etc/ssh/sshd_conf<<EOF
+StrictHostKeyChecking no 
+UserKnownHostsFile=/dev/null 
+EOF
+',     
+}
 
 
 }
